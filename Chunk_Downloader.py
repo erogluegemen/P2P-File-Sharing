@@ -14,6 +14,7 @@ colorama.init(autoreset=True)
 PORT = 5000
 BUFFER_SIZE = 4096  # 4KB of data
 
+
 def delete_files_with_suffix(directory:str, suffix:str) -> None:
     # Get the list of files in the directory
     files = os.listdir(directory)
@@ -25,10 +26,11 @@ def delete_files_with_suffix(directory:str, suffix:str) -> None:
             os.remove(file_path)
             # print(f"Deleted file: {file}")
 
+
 def combineSlices(content_name: str) -> None:
     # Combine downloaded chunks into a single file
     chunknames = [content_name+'_1_temp', content_name+'_2_temp', content_name+'_3_temp', content_name+'_4_temp', content_name+'_5_temp']
-
+    
     with open('downloaded_files/' + content_name, 'wb') as outfile:
         for chunk in chunknames:
             with open('sliced_files/' + chunk, 'rb') as infile:
@@ -87,7 +89,7 @@ while True:
                 s.close()
                 print('Could not download ' + chunkToDownload + ' from ' + ip)
                 print('Error: ', e)
-                print(Back.CYAN + '=' * 70)
+                # print(Back.CYAN + '=' * 70)
                 continue
 
         if chunkIsDownloaded:
@@ -97,27 +99,31 @@ while True:
                 dt_string = now.strftime('%d/%m/%Y %H:%M:%S')
                 up_log.write(dt_string + ' ' + chunkToDownload + ' from ' + str(ip) + '\n')
 
+            # Create the directory for downloaded_files
+            if not os.path.exists('downloaded_files'):
+                os.makedirs('downloaded_files')
+
             with open('downloaded_files/' + chunkToDownload, 'wb') as downloadedFile:
                 downloadedFile.write(downloadedChunk)
 
             s.close()
             print(Fore.GREEN + 'Chunk downloaded successfully!')
-            print(Back.CYAN + '=' * 70)
+            # print(Back.CYAN + '=' * 70)
 
 
         else:
             allChunksDownloaded = False
             print(Fore.RED + 'Chunks could not be downloaded!')
-            print(Back.CYAN + '=' * 70)
+            # print(Back.CYAN + '=' * 70)
             break
 
     if allChunksDownloaded:
         # All chunks downloaded, combine them into a single file
-        print(Fore.GREEN + 'Download finished successfully!')
+        print(Fore.GREEN + '\nDownload finished successfully!')
         combineSlices(availableFiles[selectedFileIndex])
-        print(Back.CYAN + '=' * 70)
+        # print(Back.CYAN + '=' * 70)
         break
 
     else:
-        print(Fore.RED + 'Download Failed!')
-        print(Back.CYAN + '=' * 70)
+        print(Fore.RED + '\nDownload Failed!')
+        # print(Back.CYAN + '=' * 70)

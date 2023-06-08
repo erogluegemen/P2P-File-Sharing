@@ -16,11 +16,15 @@ SERVER_PORT = 5000
 BUFFER_SIZE = 4096
 
 def sliceFile(content_name:str) -> None:
+    # Create the directory for sliced_files
+    if not os.path.exists('sliced_files'):
+        os.makedirs('sliced_files')
+
     # Function to slice the file into chunks
     fileURL = 'shared_files/' + content_name
     c = os.path.getsize(fileURL)
     CHUNK_SIZE = math.ceil(math.ceil(c) / 5)
-
+    
     index = 1
     with open(fileURL, 'rb') as infile:
         chunk = infile.read(int(CHUNK_SIZE))
@@ -100,10 +104,15 @@ while True:
                 sent = conn.send(msg[totalsent:])
                 totalsent += sent
                 print(Fore.CYAN + 'Sent ' + str(sent))
-                print(Back.CYAN + '=' * 70)
+                # print(Back.CYAN + '=' * 70)
 
             # Log the successful upload
-            with open('logs/upload_log.txt', 'a') as up_log:
+
+            # Create the directory for logs
+            if not os.path.exists('logs'):
+                os.makedirs('logs')
+
+            with open('logs/upload_log.txt', 'a+') as up_log:
                 now = datetime.now()
                 dt_string = now.strftime('%d/%m/%Y %H:%M:%S')
                 up_log.write(dt_string + ' ' + requestedChunkName + ' to ' + str(addr[0]) + '\n')

@@ -3,6 +3,8 @@ import os
 import json
 import time
 from socket import *
+from sys import platform
+import sys
 from datetime import datetime
 
 #Color
@@ -15,9 +17,23 @@ colorama.init(autoreset=True)
 IP = '192.168.1.165'  # provide your own local address here! (you can use ifconfig command in your terminal)
 PORT = 5000
 
+'''# Retrieve the local IP address dynamically
+if platform == "linux" or platform == "linux2":
+    # Linux
+    IP = gethostbyname_ex(gethostname())[2][0]
+elif platform == "darwin":
+    # macOS
+    IP = gethostbyname_ex(gethostname())[2][0]
+elif platform == "win32":
+    # Windows
+    IP = gethostbyname_ex(gethostname())[2][0]
+else:
+    IP = '127.0.0.1'  # fallback to loopback address if the platform is unknown'''
+print('IP:',IP)
+
 # Get the username from the user
 username = input('Please enter a username: ')
-username = Fore.RED + f'{username}' + Fore.RESET + Fore.YELLOW
+username = Fore.RED + f'{username}' + Fore.RESET + Fore.YELLOW + Fore.RESET
 # Get the list of sliced files
 sliced_files = os.listdir('sliced_files')
 
@@ -28,6 +44,10 @@ user_dictionary = {
 
 # Convert the dictionary to JSON
 user_json = json.dumps(user_dictionary)
+
+# Create the directory for json_files
+if not os.path.exists('json_files'):
+    os.makedirs('json_files')
 
 # Write the JSON to the announceFile
 with open('json_files/announceFile.json', 'w') as announceFile:
@@ -42,7 +62,11 @@ socket.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
 lastSentTime = 0
 announcePeriod = 5
 
+# Clear the console before starting
+os.system('cls' if os.name == 'nt' else 'clear')
+
 while True:
+    # Check if it's time to send an announcement
     if (time.time() - lastSentTime) > announcePeriod:
         # Send the JSON data as bytes over the socket
         socket.sendto(bytes(user_json.encode('utf-8')), (IP, PORT))
@@ -50,10 +74,17 @@ while True:
         lastSentTime = time.time()
         now = datetime.now()
         dt_string = now.strftime('%H:%M:%S')
-        dt_string = Fore.RED + f'{dt_string}' + Fore.RESET + Fore.YELLOW
+        dt_string = Fore.RED + f'{dt_string}' + Fore.RESET
 
-        print(Fore.YELLOW + f'\nAnnouncement sent by {username} at {dt_string}: \nFiles announced - {sliced_files}\n')
-        print(Back.CYAN + '=' * 70)
+        # Clear the console before printing the new announcement
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Sleep for 5 seconds before sending the next announcement
-    time.sleep(5)
+        print(f'\nAnnouncement sent by {username} at {dt_string}: ')
+        print(Fore.YELLOW + f'Files announced - {sliced_files}\n')
+        # print(Back.CYAN + '=' * 70)
+
+        # Flush the output to ensure immediate display
+        sys.stdout.flush()
+
+    # Sleep for 1 second before checking for changes
+    time.sleep(1)

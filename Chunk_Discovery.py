@@ -11,22 +11,23 @@ from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
 
 # Define Constant Variables
-#IP = '192.168.1.165'  # provide your own local address here! (you can use ifconfig command in your terminal)
+IP = '192.168.1.165'  # provide your own local address here! (you can use ifconfig command in your terminal)
 PORT = 5000
 BUFFER_SIZE = 4096
 
-# Retrieve the local IP address dynamically
+'''# Retrieve the local IP address dynamically
 if platform == "linux" or platform == "linux2":
     # Linux
-    IP = gethostbyname(socket.gethostname())
+    IP = gethostbyname_ex(gethostname())[2][0]
 elif platform == "darwin":
     # macOS
-    IP = socket.gethostbyname(socket.gethostname())
+    IP = gethostbyname_ex(gethostname())[2][0]
 elif platform == "win32":
     # Windows
-    IP = socket.gethostbyname(socket.gethostname())
+    IP = gethostbyname_ex(gethostname())[2][0]
 else:
     IP = '127.0.0.1'  # fallback to loopback address if the platform is unknown
+print('IP:',IP)'''
 
 # Create and bind the socket
 socket = socket(AF_INET, SOCK_DGRAM)
@@ -62,7 +63,7 @@ while True:
                 # Add the file chunk and user's address to the content dictionary
                 contentDictionary[file_chunk] = [addr[0]]
                 print(Fore.YELLOW + '[Added] ', file_chunk, 'to the dictionary.')
-                print(Back.CYAN + '=' * 70)
+                # print(Back.CYAN + '=' * 70)
                 isDictModified = True
         
 		
