@@ -41,6 +41,8 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+![Flow](https://github.com/erogluegemen/P2P-File-Sharing/blob/main/readme_images/flow.png)
+
 Start the application by running these scripts:
 ```python
 python Chunk_Uploader.py
