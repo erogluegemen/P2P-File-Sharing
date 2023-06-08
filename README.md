@@ -11,6 +11,7 @@
 
 ## Introduction
 P2P File Sharing is a peer-to-peer file sharing application written in Python. It allows users to share files directly with each other without the need for a centralized server. This project aims to provide a decentralized and efficient way of sharing files among multiple users. <br>
+<br>
 [Click Here](https://github.com/erogluegemen/P2P-File-Sharing/tree/main/readme_images) for preview.
 ## Features
 - Peer-to-peer file sharing without a central server.
