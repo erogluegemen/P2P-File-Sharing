@@ -1,0 +1,32 @@
+# macOS system files
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.build/
+
+# macOS application metadata
+*.swp
+*~
+
+# macOS executables
+myapp
+myapp.dSYM
+
+# macOS development tools
+xcuserdata/
+*.xccheckout
+*.xcworkspace
+
+# macOS IDE files
+.idea/
