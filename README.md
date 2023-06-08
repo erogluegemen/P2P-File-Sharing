@@ -55,5 +55,5 @@ python Chunk_Downloader.py
 ```
 
 ## Contributors
-[@Ece Akdeniz](https://github.com/ece-akdeniz)
+[@Ece Akdeniz](https://github.com/ece-akdeniz) <br>
 [@Egemen Eroglu](https://github.com/erogluegemen)
