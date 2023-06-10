@@ -1,4 +1,5 @@
 # Import Libraries
+import os
 import sys
 import json
 from socket import *
@@ -11,7 +12,7 @@ from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
 
 # Define Constant Variables
-IP = '192.168.1.165'  # provide your own local address here! (you can use ifconfig command in your terminal)
+IP = '10.0.31.255' # '192.168.2.255'  # provide your own local address here! (you can use ifconfig command in your terminal)
 PORT = 5000
 BUFFER_SIZE = 4096
 
@@ -68,6 +69,9 @@ while True:
         
 		
         if isDictModified:
+            # Create the directory for json_files
+            if not os.path.exists('json_files'):
+                os.makedirs('json_files')
             # Update the content dictionary in the JSON file
             with open('json_files/contentDictionary.json', 'w') as contentFile:
                 json.dump(contentDictionary, contentFile)

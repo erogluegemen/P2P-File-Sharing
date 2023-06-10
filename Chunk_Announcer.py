@@ -12,9 +12,9 @@ import colorama
 from colorama import Fore, Back, Style
 
 colorama.init(autoreset=True)
-
+ 
 # Define Constant Variables
-IP = '192.168.1.165'  # provide your own local address here! (you can use ifconfig command in your terminal)
+IP = '10.0.31.255' # '192.168.2.255'  # provide your own local address here! (you can use ifconfig command in your terminal)
 PORT = 5000
 
 '''# Retrieve the local IP address dynamically

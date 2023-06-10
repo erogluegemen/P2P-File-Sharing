@@ -56,24 +56,25 @@ while True:
     for index in range(len(availableFiles)):
         print(Fore.YELLOW + str(index) + ': '+ Fore.RESET + availableFiles[index])
 
-    selectedFileIndex = int(input('>'))
+    selectedFileIndex = int(input('> '))
 
     allChunksDownloaded = True
     # Iterate through chunks to download them
     for i in range(1, 6):
         chunkToDownload = availableFiles[selectedFileIndex] + '_' + str(i) + '_' + 'temp'
         requestJSON = json.dumps({'filename': chunkToDownload}).encode('utf8')
+        file = json.loads(requestJSON)
 
         chunkIsDownloaded = False
         # Iterate through IPs associated with the chunk for downloading
         for ip in contentFile_data[chunkToDownload]:
-            print(Fore.YELLOW + f'Requesting {ip} for {chunkToDownload}')
+            print(f'Requesting {ip} for ' + Fore.YELLOW + f'{chunkToDownload}' + Fore.RESET)
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.settimeout(10)
             try:
                 s.connect((ip, PORT))
                 s.send(requestJSON)
-                print(Fore.YELLOW + requestJSON.decode('utf-8') + ' was requested.')
+                print(Fore.YELLOW + file['filename'] + ' was requested.')
                 downloadedChunk = s.recv(BUFFER_SIZE)
 
                 # Receive remaining data
@@ -107,19 +108,19 @@ while True:
                 downloadedFile.write(downloadedChunk)
 
             s.close()
-            print(Fore.GREEN + 'Chunk downloaded successfully!')
+            print(Fore.GREEN + 'Chunk downloaded successfully!\n')
             # print(Back.CYAN + '=' * 70)
 
 
         else:
             allChunksDownloaded = False
-            print(Fore.RED + 'Chunks could not be downloaded!')
+            print(Fore.RED + 'Chunks could not be downloaded!\n')
             # print(Back.CYAN + '=' * 70)
             break
 
     if allChunksDownloaded:
         # All chunks downloaded, combine them into a single file
-        print(Fore.GREEN + '\nDownload finished successfully!')
+        print(Fore.GREEN + 'Download finished successfully!')
         combineSlices(availableFiles[selectedFileIndex])
         # print(Back.CYAN + '=' * 70)
         break

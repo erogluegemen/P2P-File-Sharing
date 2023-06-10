@@ -86,11 +86,12 @@ while True:
     try:
         # Accept incoming connections
         conn, addr = sock.accept()
-        print(Fore.GREEN + 'Connected to client with address: ' + Fore.RESET + str(addr))
+        print(Fore.GREEN + 'Connected to client with address: ' + Fore.RESET + addr[0])
 
         # Receive the requested chunk name
-        reqJSON = conn.recv(BUFFER_SIZE)
-        print(Fore.YELLOW + str(reqJSON) + ' was requested')
+        reqJSON = conn.recv(BUFFER_SIZE).decode()
+        file = json.loads(reqJSON)
+        print(Fore.YELLOW + file['filename'] + ' was requested.')
         reqJSON = json.loads(reqJSON)
         requestedChunkName = reqJSON['filename']
 
